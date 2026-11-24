@@ -1,6 +1,6 @@
 # Nova
 
-**Docs:** https://epsirho.github.io/Nova/ · **Package:** `StarFruit.Nova` · **License:** Apache-2.0
+**Docs:** https://epsirho.com/Nova/ · **Package:** `StarFruit.Nova` · **License:** Apache-2.0
 
 Nova is an audio feature extractor for C# (`net10.0`). It takes a track and measures what it sounds like: tempo, key, loudness, timbre and rhythm, as numbers you can store, compare or feed to a model.
 
