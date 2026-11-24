@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Equalizer · Nova</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>Equalizer</h1>
+<p>Up to 32 bands of matched biquads, with no high-frequency cramping near Nyquist.</p>
+<pre><code>using Nova.Dsp;
+
+var settings = new EqualizerSettings
+{
+    Bands =
+    {
+        new EqBand { Type = EqBandType.LowShelf, Frequency = 80,   Gain = 3 },
+        new EqBand { Type = EqBandType.Peak,     Frequency = 3000, Gain = -2, Q = 1.4 },
+        new EqBand { Type = EqBandType.HighPass, Frequency = 25,   Slope = 24 },
+    }
+};
+if (settings.Validate() is string error) throw new ArgumentException(error);
+
+var eq = new Equalizer(settings, sampleRate: 44100, channels: 2);
+eq.Process(interleaved);   // in place</code></pre>
+
+<h2>Band types</h2>
+<table>
+<tr><th>Type</th><th>Uses</th></tr>
+<tr><td><code>Peak</code></td><td>Frequency, Gain, Q</td></tr>
+<tr><td><code>LowShelf</code> / <code>HighShelf</code></td><td>Frequency, Gain</td></tr>
+<tr><td><code>LowPass</code> / <code>HighPass</code></td><td>Frequency, Slope</td></tr>
+<tr><td><code>BandPass</code> / <code>Notch</code></td><td>Frequency, Q</td></tr>
+</table>
+
+<h2>Limits</h2>
+<table>
+<tr><th>Setting</th><th>Range</th></tr>
+<tr><td>Frequency</td><td>10 – 40,000 Hz</td></tr>
+<tr><td>Gain, Preamp</td><td>±30 dB</td></tr>
+<tr><td>Q</td><td>0.05 – 40</td></tr>
+<tr><td>Slope</td><td>6, 12, 18, 24, 36, 48 dB/oct</td></tr>
+</table>
+<p><code>AutoHeadroom</code> (on by default) lowers the output by the highest boost.</p>
+
+<h2>Plot the response</h2>
+<pre><code>var freqs = Equalizer.LogFrequencies(256, 44100);
+var db    = Equalizer.ResponseDb(settings, 44100, freqs);</code></pre>
+    </div>
+</div>
+<script src="../sidebar.js"></script>
+</body>
+</html>

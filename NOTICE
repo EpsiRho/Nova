@@ -1,0 +1,15 @@
+Nova
+Copyright 2026 EpsiRho
+
+This product includes software developed by EpsiRho (https://github.com/EpsiRho/Nova).
+
+Nova's descriptors follow the definitions published by Essentia (https://essentia.upf.edu) and
+AcousticBrainz (https://acousticbrainz.org). No Essentia source code is included.
+
+Tuned with the help of the AcousticBrainz dataset (CC0 1.0, MetaBrainz Foundation):
+https://acousticbrainz.org/download
+https://data.metabrainz.org/pub/musicbrainz/acousticbrainz/dumps/acousticbrainz-lowlevel-json-20220623
+
+Tuned with the help of Google Magenta's E-GMD dataset (CC BY 4.0): https://magenta.tensorflow.org/datasets/e-gmd
+Lee Callender, Curtis Hawthorne and Jesse Engel, "Improving Perceptual Quality of Drum Transcription with the
+Expanded Groove MIDI Dataset" (2020), Google Magenta.

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DSP · Nova</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>DSP</h1>
+<p>Namespace <code>Nova.Dsp</code>.</p>
+<table>
+<tr><th>Type</th><th>Members</th></tr>
+<tr><td><code>Fft</code></td><td><code>new Fft(size)</code>, <code>RealSpectrum</code>, <code>RealTransform</code></td></tr>
+<tr><td><code>Window</code></td><td><code>Create(WindowType, size)</code></td></tr>
+<tr><td><code>Framing</code></td><td><code>Starts</code>, <code>Fill</code></td></tr>
+<tr><td><code>MelFilterbank</code></td><td><code>ToMel</code>, <code>ToHz</code>, <code>Create</code></td></tr>
+<tr><td><code>ErbBands</code></td><td><code>new ErbBands(bins, rate)</code>, <code>Apply</code></td></tr>
+<tr><td><code>EqualLoudness</code></td><td><code>Apply</code></td></tr>
+<tr><td><code>SpectralPeaks</code></td><td><code>Find</code></td></tr>
+<tr><td><code>ArrayShape</code></td><td><code>Distribution</code>, <code>Crest</code>, <code>FlatnessDb</code>, <code>Entropy</code>, <code>Decrease</code></td></tr>
+<tr><td><code>Selection</code></td><td><code>Select</code>, <code>Median</code></td></tr>
+<tr><td><code>VectorMath</code></td><td><code>Dot</code>, <code>Multiply</code>, <code>Widen</code></td></tr>
+</table>
+
+<h2>Biquads</h2>
+<pre><code>Biquad b = MatchedBiquad.Peak(omega0: 2 * Math.PI * 1000 / 44100, gainDb: 3, q: 1);
+double power = b.MagnitudeSquared(omega);</code></pre>
+<p><code>MatchedBiquad</code>: <code>Peak</code>, <code>LowShelf</code>, <code>HighShelf</code>, <code>LowPass</code>, <code>HighPass</code>, <code>BandPass</code>, <code>Notch</code>, <code>FirstOrder</code>.</p>
+
+<h2>Equalizer</h2>
+<p>See the <a href="../Guides/Equalizer.html">Equalizer guide</a>.</p>
+    </div>
+</div>
+<script src="../sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Descriptors · Nova</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>Descriptors</h1>
+<p>Keys of <code>TrackFeatures.LowLevel</code>.</p>
+<table>
+<tr><th>Group</th><th>Keys</th></tr>
+<tr><td>Cepstral</td><td><code>mfcc</code>, <code>gfcc</code></td></tr>
+<tr><td>Bands</td><td><code>melbands</code>, <code>barkbands</code>, <code>erbbands</code>, each with <code>_crest</code>, <code>_flatness_db</code>, <code>_kurtosis</code>, <code>_skewness</code>, <code>_spread</code></td></tr>
+<tr><td>Energy bands</td><td><code>spectral_energyband_low</code>, <code>_middle_low</code>, <code>_middle_high</code>, <code>_high</code></td></tr>
+<tr><td>Spectral shape</td><td><code>spectral_centroid</code>, <code>_spread</code>, <code>_skewness</code>, <code>_kurtosis</code>, <code>_rolloff</code>, <code>_decrease</code>, <code>_entropy</code>, <code>_flux</code></td></tr>
+<tr><td>Spectral level</td><td><code>spectral_energy</code>, <code>spectral_rms</code>, <code>spectral_strongpeak</code>, <code>hfc</code></td></tr>
+<tr><td>Contrast</td><td><code>spectral_contrast_coeffs</code>, <code>spectral_contrast_valleys</code></td></tr>
+<tr><td>Other</td><td><code>spectral_complexity</code>, <code>pitch_salience</code>, <code>dissonance</code>, <code>zerocrossingrate</code></td></tr>
+</table>
+<p>Average loudness and dynamic complexity live on <code>TrackFeatures</code>.</p>
+    </div>
+</div>
+<script src="../sidebar.js"></script>
+</body>
+</html>

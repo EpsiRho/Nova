@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home · Nova</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>✦ Nova</h1>
+<p class="lede">An audio feature extractor for C#: tempo, key, loudness, timbre and rhythm from any track.</p>
+<pre><code>dotnet add package StarFruit.Nova</code></pre>
+<pre><code>var f = new Nova.FeatureExtractor().Extract(@"D:\Music\track.flac");
+
+Console.WriteLine($"{f.Bpm:F1} BPM, {f.Key.Key} {f.Key.Scale}");
+// 128.0 BPM, A minor</code></pre>
+
+<h2>What it computes</h2>
+<table>
+<tr><th>Group</th><th>Fields</th></tr>
+<tr><td>Rhythm</td><td>BPM, beat positions</td></tr>
+<tr><td>Tonal</td><td>Key, scale, strength, tuning, mean HPCP</td></tr>
+<tr><td>Loudness</td><td>Replay gain, average loudness, dynamic complexity</td></tr>
+<tr><td>Low-level</td><td>Every frame-wise <code>lowlevel</code> descriptor: MFCC, GFCC, bands, spectral shape, contrast and more</td></tr>
+<tr><td>Temporal <em>(optional)</em></td><td>Beat grid, per-beat rows, onset pattern, swing, syncopation, tempo drift, structure</td></tr>
+<tr><td>DSP</td><td>FFT, windows, mel/ERB filterbanks, a 32-band matched-biquad EQ</td></tr>
+</table>
+<p>Descriptor names and statistics follow the AcousticBrainz low-level layout, so the output lines up with that dataset and anything trained on it.</p>
+
+<div class="cards">
+    <a class="card" href="Guides/GettingStarted.html"><b>Getting Started</b><span>Install and extract your first track</span></a>
+    <a class="card" href="Guides/Temporal.html"><b>Temporal Features</b><span>Rhythm in time order</span></a>
+    <a class="card" href="Guides/Equalizer.html"><b>Equalizer</b><span>32-band matched-biquad EQ</span></a>
+    <a class="card" href="Guides/Accuracy.html"><b>Accuracy</b><span>How it measures up against reference data</span></a>
+</div>
+
+<h2>Decoding</h2>
+<p>Nova analyses mono 44.1 kHz samples. Given a path, it decodes with ffmpeg. Given samples, it takes them from any
+decoder, such as NAudio on Windows Media Foundation, and needs no ffmpeg. See
+<a href="Guides/GettingStarted.html">Getting Started</a>.</p>
+    </div>
+</div>
+<script src="sidebar.js"></script>
+</body>
+</html>

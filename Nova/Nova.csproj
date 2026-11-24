@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>StarFruit.Nova</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>EpsiRho</Authors>
+    <Description>Audio feature extraction for C#: BPM and beats, key, loudness, low-level spectral descriptors in the AcousticBrainz layout, temporal rhythm and structure features, and a 32-band equalizer.</Description>
+    <PackageTags>audio;mir;essentia;acousticbrainz;dsp;features;bpm;key;equalizer</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/EpsiRho/Nova</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/EpsiRho/Nova</PackageProjectUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\NOTICE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

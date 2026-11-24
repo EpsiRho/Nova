@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Getting Started · Nova</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>Getting Started</h1>
+<h2>Requirements</h2>
+<ul>
+<li>.NET 10</li>
+<li><code>ffmpeg</code> on <code>PATH</code>, or its path in <code>NOVA_FFMPEG</code>, only if Nova decodes files for you</li>
+</ul>
+
+<h2>Install</h2>
+<pre><code>dotnet add package StarFruit.Nova</code></pre>
+
+<h2>Extract a file</h2>
+<pre><code>using Nova;
+
+var extractor = new FeatureExtractor();
+var f = extractor.Extract("track.flac");
+
+f.Bpm;                                  // 128.0
+f.Key;                                  // KeyResult { Key = "A", Scale = "minor", ... }
+f.ReplayGain;                           // -9.3
+f.LowLevel["mfcc"].Mean;                // double[13]
+f.LowLevel["spectral_centroid"].Median; // double[1]</code></pre>
+
+<h2>Audio input</h2>
+<p>Nova analyses mono float samples at 44.1 kHz, held in a <code>MonoSignal</code>.</p>
+<table>
+<tr><th>Call</th><th>Needs</th><th>Notes</th></tr>
+<tr><td><code>Extract(path)</code></td><td>ffmpeg</td><td>Decodes with <code>AudioDecoder</code>: soxr resampling and a channel average.</td></tr>
+<tr><td><code>Extract(MonoSignal)</code></td><td>Nothing</td><td>Samples from any decoder, such as NAudio on Windows Media Foundation.</td></tr>
+</table>
+
+<h2>Decoding with NAudio</h2>
+<p>NAudio's <code>AudioFileReader</code> decodes through Windows Media Foundation, so no ffmpeg is needed:</p>
+<pre><code>using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
+
+using var reader = new AudioFileReader(path);
+
+// Nova expects 44.1 kHz, so resample anything else
+ISampleProvider source = reader.WaveFormat.SampleRate == 44100
+    ? reader
+    : new WdlResamplingSampleProvider(reader, 44100);
+
+// Mix the channels down to mono by averaging them
+int channels = reader.WaveFormat.Channels;
+var mono = new List&lt;float&gt;();
+var buffer = new float[16384 * channels];
+int read;
+while ((read = source.Read(buffer, 0, buffer.Length)) &gt; 0)
+    for (int i = 0; i + channels &lt;= read; i += channels)
+    {
+        float sum = 0;
+        for (int c = 0; c &lt; channels; c++) sum += buffer[i + c];
+        mono.Add(sum / channels);
+    }
+
+var f = extractor.Extract(new Nova.Audio.MonoSignal(mono.ToArray(), 44100));</code></pre>
+<p>Lossless 44.1 kHz files give the same samples with either decoder. Lossy files and other sample rates can come
+out slightly different, since the decoder and resampler differ.</p>
+
+<h2>Decode a window</h2>
+<p>With ffmpeg, only part of a file:</p>
+<pre><code>var decoder = new Nova.Audio.AudioDecoder(@"C:\tools\ffmpeg.exe");
+var clip = decoder.Decode("track.flac", start: 30, seconds: 10);</code></pre>
+
+<h2>Two keys</h2>
+<table>
+<tr><th>Field</th><th>Use for</th></tr>
+<tr><td><code>Key</code></td><td>Models trained on AcousticBrainz data (uses the same key profile)</td></tr>
+<tr><td><code>MusicalKey</code></td><td>Harmonic mixing, key compatibility between tracks</td></tr>
+</table>
+    </div>
+</div>
+<script src="../sidebar.js"></script>
+</body>
+</html>

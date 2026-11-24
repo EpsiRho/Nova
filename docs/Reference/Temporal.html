@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Temporal Types · Nova</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>Temporal Types</h1>
+<p>Namespace <code>Nova.Temporal</code>.</p>
+<pre><code>record TemporalFeatures(BeatGrid Grid, BeatSequence Beats, OnsetPattern Pattern,
+    TempoStability Tempo, BarStructure Structure, ClockSeries Clock, RhythmValidity Validity)
+
+TemporalFeatures.SchemaVersion      // 4
+TemporalFeatures.Compute(MonoSignal signal)</code></pre>
+
+<h2>BeatGrid</h2>
+<pre><code>record BeatGrid(double[] Beats, int BeatsPerBar, int DownbeatPhase, int[] BarStarts, double DownbeatConfidence)</code></pre>
+
+<h2>BeatSequence</h2>
+<pre><code>ReadOnlySpan&lt;double&gt; OnsetAt(int beat)
+ReadOnlySpan&lt;double&gt; ChromaAt(int beat)
+ReadOnlySpan&lt;double&gt; MfccAt(int beat)</code></pre>
+
+<h2>OnsetPattern</h2>
+<table>
+<tr><th>Field</th><th>Shape</th></tr>
+<tr><td>Steps</td><td>16 × 4 bands</td></tr>
+<tr><td>Steps48</td><td>48 × 4 bands</td></tr>
+<tr><td>BarSteps</td><td>bars × 16 × 4</td></tr>
+<tr><td>Swing8, Swing16 (+ Confidence)</td><td>scalar</td></tr>
+<tr><td>Syncopation, SyncopationByPhase</td><td>per band, per beat phase</td></tr>
+<tr><td>SyncopationOverall, Clarity, Variation</td><td>scalar</td></tr>
+</table>
+<pre><code>double At(int step, int band)</code></pre>
+
+<h2>FrameSeries</h2>
+<pre><code>record FrameSeries(double[] Values, int Dims, double HopSeconds)
+
+ReadOnlySpan&lt;double&gt; Frame(int t)
+(int First, int End) Range(double start, double end)
+void Mean(double start, double end, Span&lt;double&gt; destination)</code></pre>
+
+<h2>ClockSeries</h2>
+<pre><code>ReadOnlySpan&lt;double&gt; OnsetAt(int row)
+ReadOnlySpan&lt;double&gt; FlatnessAt(int row)</code></pre>
+
+<h2>RhythmStatus</h2>
+<table>
+<tr><th>Value</th><th>Meaning</th></tr>
+<tr><td>NoPulse</td><td>Beatless, ambient, speech, silence</td></tr>
+<tr><td>Uncertain</td><td>Pulse exists, beats fit poorly</td></tr>
+<tr><td>Pulse</td><td>Grid is trustworthy</td></tr>
+</table>
+    </div>
+</div>
+<script src="../sidebar.js"></script>
+</body>
+</html>

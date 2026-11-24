@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Temporal Features · Nova</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>Temporal Features</h1>
+<pre><code>var f = new FeatureExtractor(temporal: true).Extract("track.flac");
+var t = f.Temporal!;
+
+t.Validity.Status;            // Pulse
+t.Pattern.Swing8;             // 0.12
+t.Pattern.SyncopationOverall;
+t.Tempo.Drift;
+t.Structure.Sections;         // Section(StartBar, Bars, Start, Length)[]</code></pre>
+<p>The track-level values come out exactly the same with or without <code>temporal</code>.</p>
+
+<h2>Parts</h2>
+<table>
+<tr><th>Type</th><th>Holds</th></tr>
+<tr><td><code>BeatGrid</code></td><td>Beats, bar starts, downbeat confidence (4/4)</td></tr>
+<tr><td><code>BeatSequence</code></td><td>Per beat: loudness, band onsets, flux, centroid, chroma, MFCC</td></tr>
+<tr><td><code>OnsetPattern</code></td><td>Bars folded to 16 and 48 steps × 4 bands; swing, syncopation, clarity</td></tr>
+<tr><td><code>TempoStability</code></td><td>Beat spread, drift, local BPM range, changes, 64-point curve</td></tr>
+<tr><td><code>BarStructure</code></td><td>64×64 chroma and timbre self-similarity, novelty, sections, energy</td></tr>
+<tr><td><code>ClockSeries</code></td><td>One row a second: loudness, onsets, pulse salience, beat support, flatness</td></tr>
+<tr><td><code>RhythmValidity</code></td><td><code>Pulse</code>, <code>Uncertain</code> or <code>NoPulse</code></td></tr>
+</table>
+
+<h2>Bands</h2>
+<table>
+<tr><th>Band</th><th>Range</th></tr>
+<tr><td>0</td><td>&lt; 150 Hz</td></tr>
+<tr><td>1</td><td>150 – 800 Hz</td></tr>
+<tr><td>2</td><td>800 – 4,000 Hz</td></tr>
+<tr><td>3</td><td>&gt; 4,000 Hz</td></tr>
+</table>
+
+<h2>Trust the grid?</h2>
+<pre><code>if (t.Validity.Status == RhythmStatus.NoPulse)
+    return; // grid, pattern and bars are arbitrary: ambient, speech, silence</code></pre>
+
+<h2>Schema</h2>
+<p><code>TemporalFeatures.SchemaVersion</code> is <b>4</b>. Never mix stored features across versions.</p>
+    </div>
+</div>
+<script src="../sidebar.js"></script>
+</body>
+</html>

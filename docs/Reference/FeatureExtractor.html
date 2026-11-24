@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FeatureExtractor · Nova</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>FeatureExtractor</h1>
+<pre><code>public FeatureExtractor(AudioDecoder? decoder = null, bool temporal = false,
+                        double temporalMaxSeconds = 1800)
+
+public TrackFeatures Extract(string path)
+public TrackFeatures Extract(MonoSignal decoded)</code></pre>
+
+<h2>TrackFeatures</h2>
+<table>
+<tr><th>Field</th><th>Type</th><th>AcousticBrainz</th></tr>
+<tr><td>DurationSeconds</td><td>double</td><td><code>metadata.audio_properties.length</code></td></tr>
+<tr><td>ReplayGain</td><td>double</td><td><code>metadata.audio_properties.replay_gain</code></td></tr>
+<tr><td>AverageLoudness</td><td>double</td><td><code>lowlevel.average_loudness</code></td></tr>
+<tr><td>DynamicComplexity</td><td>double</td><td><code>lowlevel.dynamic_complexity</code></td></tr>
+<tr><td>Bpm</td><td>double</td><td><code>rhythm.bpm</code></td></tr>
+<tr><td>Beats</td><td>double[]</td><td><code>rhythm.beats_position</code></td></tr>
+<tr><td>Key</td><td>KeyResult</td><td><code>tonal.key_*</code>, <code>tuning_frequency</code></td></tr>
+<tr><td>MusicalKey</td><td>KeyResult</td><td>—</td></tr>
+<tr><td>LowLevel</td><td>IReadOnlyDictionary&lt;string, DescriptorStats&gt;</td><td><code>lowlevel.*</code></td></tr>
+<tr><td>Temporal</td><td>TemporalFeatures?</td><td>—</td></tr>
+<tr><td>TemporalSkipped</td><td>string?</td><td>—</td></tr>
+</table>
+
+<h2>KeyResult</h2>
+<pre><code>record KeyResult(string Key, string Scale, double Strength, double TuningFrequency, double[] MeanHpcp)</code></pre>
+
+<h2>DescriptorStats</h2>
+<table>
+<tr><th>Field</th><th>Over</th></tr>
+<tr><td>Mean, Var, Median, Min, Max</td><td>Frames</td></tr>
+<tr><td>Dmean, Dvar</td><td>First difference</td></tr>
+<tr><td>Dmean2, Dvar2</td><td>Second difference</td></tr>
+<tr><td>Cov, Icov</td><td>MFCC and GFCC only</td></tr>
+</table>
+
+<h2>AudioDecoder</h2>
+<pre><code>new AudioDecoder(string? ffmpegPath = null)   // else NOVA_FFMPEG, else "ffmpeg"
+MonoSignal Decode(string path)
+MonoSignal Decode(string path, double? start, double? seconds)
+
+record MonoSignal(float[] Samples, int SampleRate)</code></pre>
+<p><code>AudioDecoder</code> is only needed for <code>Extract(path)</code>. Build a <code>MonoSignal</code> (mono, 44.1 kHz)
+from any other decoder, such as NAudio on Windows Media Foundation, and call <code>Extract(MonoSignal)</code> instead.</p>
+
+<h2>Errors</h2>
+<p><code>Extract</code> throws on NaN, infinite, or &gt; 1,000× full-scale samples.</p>
+    </div>
+</div>
+<script src="../sidebar.js"></script>
+</body>
+</html>

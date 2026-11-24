@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Onset and Mel Frames · Nova</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+<div class="container">
+    <div id="sidebar-placeholder"></div>
+    <div class="content">
+<h1>Onset &amp; Mel Frames</h1>
+<p>Frame-level input for sequence models, 100 frames a second.</p>
+<pre><code>var clip = new AudioDecoder().Decode(path, start: 30, seconds: 8); // any MonoSignal works
+FrameSeries onsets = BandOnsets.Compute(clip, BandOnsets.EightBandEdges);
+FrameSeries mel    = MelFrames.Compute(clip);
+ReadOnlySpan&lt;double&gt; frame = mel.Frame(100); // 1 s in</code></pre>
+
+<h2>Series</h2>
+<table>
+<tr><th>Call</th><th>Bands</th><th>Value</th></tr>
+<tr><td><code>BandOnsets.Compute(clip, BandOnsets.EightBandEdges)</code></td><td>8, edges 0 · 100 · 200 · 400 · 800 · 1.6k · 3.2k · 6.4k Hz</td><td>Onset strength</td></tr>
+<tr><td><code>BandOnsets.Compute(clip)</code></td><td>4: &lt; 150 · 150–800 · 800–4k · &gt; 4k Hz</td><td>Onset strength</td></tr>
+<tr><td><code>MelFrames.Compute(clip)</code></td><td>64 mel, 0 – 16 kHz</td><td><code>log(1 + 10⁴·m)</code>, 2,048-sample Hann frames</td></tr>
+</table>
+<p>When cutting windows, start a little early (0.2 s is plenty) so the first onsets have a past.</p>
+    </div>
+</div>
+<script src="../sidebar.js"></script>
+</body>
+</html>

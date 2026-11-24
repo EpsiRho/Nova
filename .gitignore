@@ -1,0 +1,16 @@
+# Build output
+bin/
+obj/
+artifacts/
+
+# IDE state
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Test results and profiling
+TestResults/
+*.trx
+*.nettrace
